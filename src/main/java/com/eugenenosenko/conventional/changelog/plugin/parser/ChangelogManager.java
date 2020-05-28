@@ -71,6 +71,10 @@ public final class ChangelogManager implements AutoCloseable, Undoable, TagParse
   }
 
   public void writeEntriesToChangelog(List<ReleaseEntry> entries) throws IOException {
+    if (!changelogHandler.exists()) {
+      Files.createFile(changelogHandler.getFile());
+    }
+
     for (ReleaseEntry entry : entries) {
       changelogHandler.appendStringToFile(entry.toString().concat("\n"));
     }

@@ -21,14 +21,14 @@ abstract class AbstractChangeLogMojo extends AbstractMojo {
   protected String filename;
 
   @Parameter(property = "backupFilename", defaultValue = "CHANGELOG.md.backup")
-  protected String backupFilename ;
+  protected String backupFilename;
 
   @Parameter(defaultValue = "${project.basedir}", required = true)
   protected File projectBaseDir;
 
   protected DefaultGitService createGitService() throws IOException {
     Repository repository =
-        new RepositoryBuilder().readEnvironment().findGitDir(new File(".")).build();
+        new RepositoryBuilder().readEnvironment().findGitDir(projectBaseDir).build();
     getLog()
         .info(
             "Resolved .git repository in "
