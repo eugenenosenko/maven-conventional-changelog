@@ -14,12 +14,12 @@ public final class CommitMatcherUtil {
   private CommitMatcherUtil() {}
 
   private static Pattern createRegexPattern() {
-    //i.e. ^(build|test|chore|feat|fix|docs)
+    // i.e. ^(build|test|chore|feat|fix|docs)
     String typePrefix =
         Arrays.stream(CommitType.values())
             .map(CommitType::getPrefix)
             .collect(joining("|", "^(", ")"));
 
-    return Pattern.compile(typePrefix + "[(]?(\\w+)?[)]?(!)?:\\s(.+)");
+    return Pattern.compile(typePrefix + "[(]?([\\w\\-]+)?[)]?(!)?:\\s(.+)");
   }
 }

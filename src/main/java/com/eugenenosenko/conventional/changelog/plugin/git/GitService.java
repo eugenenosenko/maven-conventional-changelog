@@ -13,6 +13,8 @@ public interface GitService {
 
   List<Ref> getTagList() throws GitAPIException;
 
+  RevCommit getCommitForRef(Ref ref) throws IOException;
+
   Map<VersionTag, List<RevCommit>> fetchCommitsFromVersion(String sinceVersion)
       throws GitAPIException, IOException;
 
@@ -21,9 +23,9 @@ public interface GitService {
 
   void addFile(String changelogFile) throws GitAPIException;
 
-  String getLastTagShortName() throws GitAPIException;
+  Ref getLastTag() throws GitAPIException;
 
-  String getLastCommitMessage() throws GitAPIException;
+  RevCommit getLastCommit() throws GitAPIException;
 
   void commitWithMessage(String message) throws GitAPIException;
 

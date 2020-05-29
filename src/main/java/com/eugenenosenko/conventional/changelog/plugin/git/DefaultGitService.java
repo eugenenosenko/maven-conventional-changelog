@@ -1,6 +1,7 @@
 package com.eugenenosenko.conventional.changelog.plugin.git;
 
 import com.eugenenosenko.conventional.changelog.plugin.context.VersionTag;
+import com.eugenenosenko.conventional.changelog.plugin.exception.TagListSortingException;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.DeleteTagCommand;
 import org.eclipse.jgit.api.Git;
@@ -21,33 +22,47 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
 
+import static com.eugenenosenko.conventional.changelog.util.GitUtil.getObjectId;
 import static org.eclipse.jgit.api.ResetCommand.ResetType.SOFT;
 
 public final class DefaultGitService implements AutoCloseable, GitService {
-  public final Git git;
   private final Repository repository;
+  private final Git git;
 
   public DefaultGitService(Repository repository) {
-    this.git = new Git(repository);
     this.repository = repository;
-  }
-
-  private static ObjectId getObjectId(Ref ref) {
-    if (ref.getPeeledObjectId() != null) {
-      return ref.getPeeledObjectId();
-    }
-
-    return ref.getObjectId();
-  }
-
-  private static String getTagShortName(Ref tagRef) {
-    return tagRef.getName().replace("refs/tags/", "");
+    this.git = new Git(repository);
   }
 
   @Override
   public List<Ref> getTagList() throws GitAPIException {
-    return git.tagList().call();
+    List<Ref> unsortedTagList = git.tagList().call();
+    return sortTagListByDate(unsortedTagList);
+  }
+
+  private List<Ref> sortTagListByDate(List<Ref> unsortedTagList) {
+    unsortedTagList.sort(Comparator.comparing(tagSortingFunction(repository)));
+    return unsortedTagList;
+  }
+
+  @Override
+  public RevCommit getCommitForRef(Ref ref) throws IOException {
+    return repository.parseCommit(getObjectId(ref));
+  }
+
+  private static Function<Ref, Integer> tagSortingFunction(Repository repository) {
+    return ref -> {
+      try {
+        return repository.parseCommit(getObjectId(ref)).getCommitTime();
+      } catch (IOException e) {
+        throw new TagListSortingException(
+            "Failed to sort tag list. Exception occurred when "
+                + "tried to parse commit from tag ref",
+            e);
+      }
+    };
   }
 
   private List<RevCommit> fetchCommitsWithRange(ObjectId startId, ObjectId endId)
@@ -133,20 +148,18 @@ public final class DefaultGitService implements AutoCloseable, GitService {
   }
 
   @Override
-  public String getLastTagShortName() throws GitAPIException {
+  public Ref getLastTag() throws GitAPIException {
     List<Ref> tagList = git.tagList().call();
-    Ref lastTag = tagList.get(getTagList().size() - 1);
-    return getTagShortName(lastTag);
+    return tagList.get(getTagList().size() - 1);
   }
 
   @Override
-  public String getLastCommitMessage() throws GitAPIException {
+  public RevCommit getLastCommit() throws GitAPIException {
     LogCommand log = git.log();
     log.setMaxCount(1);
     Iterable<RevCommit> call = log.call();
-    RevCommit lastCommit = call.iterator().next();
 
-    return lastCommit.getFullMessage();
+    return call.iterator().next();
   }
 
   @Override

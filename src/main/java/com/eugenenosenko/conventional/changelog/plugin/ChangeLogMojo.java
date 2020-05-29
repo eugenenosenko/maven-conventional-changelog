@@ -37,12 +37,12 @@ public final class ChangeLogMojo extends AbstractChangeLogMojo {
       }
 
       DefaultReleaseEntryResolver releaseEntryResolver = new DefaultReleaseEntryResolver();
-      Map<VersionTag, List<RevCommit>> tagMap = changelogManager.parse();
+      Map<VersionTag, List<RevCommit>> tagMap = changelogManager.parse(releaseCount);
       List<ReleaseEntry> entries = releaseEntryResolver.resolve(tagMap);
       changelogManager.writeEntriesToChangelog(entries);
 
-      if (entries.size() > 0) {
-        // amend last commit to add CHANGELOG.md file
+      if (entries.size() > 0 && amendLastCommit) {
+        getLog().info("Amending last commit to include changelog changes...");
         new GitVersionManager(gitService).amendLastCommitAndWithChangelog(filename);
       }
 

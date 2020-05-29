@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public final class FromTagParseStrategy implements ParseStrategy {
+public final class FromLastTagParser implements ParseStrategy {
   private final String lastRecordedTag;
 
-  public FromTagParseStrategy(String lastRecordedTag) {
+  public FromLastTagParser(String lastRecordedTag) {
     this.lastRecordedTag = lastRecordedTag;
   }
 

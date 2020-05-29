@@ -7,6 +7,8 @@ import com.eugenenosenko.conventional.changelog.core.DefaultChangeLogEntryResolv
 import com.eugenenosenko.conventional.changelog.core.DefaultConventionalCommitResolver;
 import com.eugenenosenko.conventional.changelog.core.entry.ReleaseEntry;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class DefaultReleaseEntryResolver implements ReleaseEntryResolver {
+  private static final Logger log = LoggerFactory.getLogger(DefaultReleaseEntryResolver.class);
+
   private final ChangeLogEntryResolver entryResolver;
   private final ConventionalCommitResolver commitResolver;
 

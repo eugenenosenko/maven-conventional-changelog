@@ -9,5 +9,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface TagParser {
-  Map<VersionTag, List<RevCommit>> parse() throws GitAPIException, IOException;
+  Map<VersionTag, List<RevCommit>> parse(int releaseCount) throws GitAPIException, IOException;
 }

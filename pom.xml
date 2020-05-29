@@ -6,7 +6,7 @@
         <artifactId>oss-parent</artifactId>
         <version>9</version>
     </parent>
-    <groupId>com.eugenenosenko</groupId>
+    <groupId>com.github.eugenenosenko</groupId>
     <artifactId>changelog-maven-plugin</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
