@@ -22,11 +22,19 @@ public final class NTagsParser implements ParseStrategy {
       throws GitAPIException, IOException {
     List<Ref> tagList = gitService.getTagList();
 
+    if (releaseCount >= tagList.size()) {
+      return gitService.fetchCommitsForTags(tagList, true);
+    }
+
     if (releaseCount == 0) {
-      return gitService.fetchCommitsForTags(tagList.subList(0, 1), true);
+      return gitService.fetchCommitsForTags(
+          tagList.subList(tagList.size() - 2, tagList.size()), false);
     }
 
     return gitService.fetchCommitsForTags(
-        tagList.subList(0, Math.min(releaseCount + 1, tagList.size())), true);
+        tagList.subList(
+            tagList.size() - Math.min(tagList.size(), (tagList.size() - 2 + releaseCount)),
+            tagList.size()),
+        false);
   }
 }

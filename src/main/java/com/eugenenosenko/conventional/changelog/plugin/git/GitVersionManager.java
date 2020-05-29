@@ -20,7 +20,7 @@ public final class GitVersionManager implements Undoable {
     this.gitService = gitService;
   }
 
-  public void amendLastCommitAndWithChangelog(String changelogFile)
+  public void amendLastCommitAndAddChangelog(String changelogFile)
       throws GitAPIException, IOException {
     boolean shouldAmendTag = false;
 
@@ -30,8 +30,8 @@ public final class GitVersionManager implements Undoable {
 
     if (gitService.getCommitForRef(lastTagRef).equals(lastCommit)) {
       log.info("Deleting previous tag {}", lastTagName);
-      shouldAmendTag = true;
       gitService.deleteTag(lastTagName);
+      shouldAmendTag = true;
     }
 
     log.info("Amending last commit...");
