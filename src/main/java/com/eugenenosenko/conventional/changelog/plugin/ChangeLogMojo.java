@@ -37,22 +37,23 @@ public final class ChangeLogMojo extends AbstractChangeLogMojo {
       }
 
       DefaultReleaseEntryResolver releaseEntryResolver = new DefaultReleaseEntryResolver();
-      Map<VersionTag, List<RevCommit>> tagMap = changelogManager.parse(releaseCount);
+      Map<VersionTag, List<RevCommit>> tagMap = changelogManager.parse(release);
       List<ReleaseEntry> entries = releaseEntryResolver.resolve(tagMap);
       changelogManager.writeEntriesToChangelog(entries);
 
       if (entries.size() > 0 && amendLastCommit) {
         getLog().info("Amending last commit to include changelog changes...");
-        new GitVersionManager(gitService).amendLastCommitAndWithChangelog(filename);
+        new GitVersionManager(gitService).amendLastCommitAndAddChangelog(filename);
       }
 
     } catch (IOException e) {
-      throw new MojoExecutionException("IO exception occurred during mojo execution", e);
+      throw new MojoExecutionException(
+          "IO exception occurred during mojo execution. Error : " + e.getMessage(), e);
     } catch (GitAPIException e) {
       throw new MojoExecutionException(
           "Couldn't locate .git folder in " + projectBaseDir.getAbsolutePath(), e);
     } catch (Exception e) {
-      throw new MojoExecutionException("Failed to execute Mojo", e);
+      throw new MojoExecutionException("Failed to execute Mojo. Error : " + e.getMessage(), e);
     }
   }
 }

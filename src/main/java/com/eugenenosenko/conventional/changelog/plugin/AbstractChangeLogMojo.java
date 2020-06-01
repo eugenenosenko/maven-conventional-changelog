@@ -64,8 +64,8 @@ abstract class AbstractChangeLogMojo extends AbstractMojo {
    *
    * <p>defaultValue: -1
    */
-  @Parameter(property = "releaseCount", defaultValue = "-1")
-  protected int releaseCount;
+  @Parameter(property = "release", defaultValue = "-1")
+  protected int release;
 
   protected DefaultGitService createGitService() throws IOException {
     getLog().info("Starting git service...");
