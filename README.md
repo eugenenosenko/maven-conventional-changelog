@@ -25,9 +25,11 @@ your commits in order to create a valid changelog entries, if one or more of the
 #### Plugin configuration
 
 Plugin allows you to specify following options:
-- Number of releases to generate changelog for
-- Filename changelog should be written into
-- Whether last commit should be amended to include changelog file changes, this will perform: 
+- `<release>` specifies number of releases to generate changelog. Default value is `-1` which will generate entries for entire git history 
+`<release>0</release>` will generate changelog only for last release, `1` and `2` for last 2 and 3 respectively.
+
+- `filename` specifies filename changelog should be written into
+- `amendLastCommit` specifies whether last commit should be amended to include changelog file changes, this will perform: 
     * soft reset
     * add changelog file changes 
     * commit with the same message as before
@@ -43,6 +45,7 @@ See full configuration below
             <configuration>
                 <amendLastCommit>true</amendLastCommit>         <!-- default is "false"-->
                 <filename>mychangelog.md</filename>             <!-- default is "CHANGELOG.md"-->
+                <release>2</release>                            <!-- default is "-1"-->
                 <backupFilename>backupfile.md</backupFilename>  <!-- default is "CHANGELOG.md.backup"-->
             </configuration>
         </plugin>
@@ -57,5 +60,5 @@ mvn conventional:changelog
 You can specify configuration parameters from command line same as for any other plugin, i.e. 
 
 ```shell script
-mvn conventional:changelog -Dfilename=changelog.md -DamendLastCommit=true
+mvn conventional:changelog -Drelease=1 -Dfilename=changelog.md -DamendLastCommit=true
 ```
