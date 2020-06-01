@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.eugenenosenko</groupId>
     <artifactId>changelog-maven-plugin</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Conventional commit changelog generator for maven</description>
@@ -28,7 +28,7 @@
         <url>https://github.com/eugenenosenko/maven-conventional-changelog</url>
         <developerConnection>scm:git:https://github.com/eugenenosenko/maven-conventional-changelog.git
         </developerConnection>
-        <tag>v0.0.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
