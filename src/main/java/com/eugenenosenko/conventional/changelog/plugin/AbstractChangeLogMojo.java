@@ -48,7 +48,7 @@ abstract class AbstractChangeLogMojo extends AbstractMojo {
    *
    * <p>defaultValue: true
    */
-  @Parameter(property = "amendLastCommit", defaultValue = "true")
+  @Parameter(property = "amendLastCommit", defaultValue = "false")
   protected boolean amendLastCommit;
 
   /**
