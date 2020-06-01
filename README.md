@@ -8,7 +8,7 @@ Java / Maven projects based on `GIT VCS` history.
 ### Info
 
 Plugin requires you to follow [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) specifications in 
-your commits in order to create a valid changelog entries, if one or more of the commits are not compliant they will be ignored.
+your commits in order to create a valid changelog entries, commits that do not comply with the convention they will be ignored.
 
 
 #### Install the Plugin
