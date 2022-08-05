@@ -54,11 +54,11 @@ See full configuration below
 #### Usage
 
 ```shell script
-mvn conventional:changelog 
+mvn changelog:conventional
 ```
 
 You can specify configuration parameters from command line same as for any other plugin, i.e. 
 
 ```shell script
-mvn conventional:changelog -Drelease=1 -Dfilename=changelog.md -DamendLastCommit=true
+mvn changelog:conventional -Drelease=1 -Dfilename=changelog.md -DamendLastCommit=true
 ```
